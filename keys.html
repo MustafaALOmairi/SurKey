@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>مفاتيح التفعيل</title>
+<style>
+:root{
+  --bg:#eef1f8; --surface:#fff; --surface-2:#f3f6fd; --ink:#2b3445; --muted:#6c7a92; --line:#dfe4ef;
+  --navy:#2c3e50; --navy-2:#4a6491; --navy-grad:linear-gradient(135deg,#2c3e50,#4a6491);
+  --green:#27ae60; --green-soft:#e4f7ea; --red:#e74c3c; --red-soft:#fdeae7; --amber:#e67e22; --amber-soft:#fdf1e3;
+  --r:14px; --f:'Segoe UI',Tahoma,Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){
+  --bg:#121824; --surface:#1b2331; --surface-2:#222c3d; --ink:#e9edf5; --muted:#95a2b8; --line:#2e3a4f;
+  --navy:#16202e; --navy-2:#34486b; --navy-grad:linear-gradient(135deg,#16202e,#34486b);
+  --green:#3fbf75; --green-soft:#16331f; --red:#f0695a; --red-soft:#3a1f1c; --amber:#f0a43c; --amber-soft:#3a2a12;
+  color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.6 var(--f);
+  padding:0 max(14px,env(safe-area-inset-right)) 40px max(14px,env(safe-area-inset-left))}
+h1,h2,h3{margin:0;line-height:1.3}
+.wrap{max-width:620px;margin:auto}
+header{background:var(--navy-grad);color:#fff;border-radius:0 0 18px 18px;padding:18px 16px;
+  margin:0 calc(-1*max(14px,env(safe-area-inset-right))) 18px calc(-1*max(14px,env(safe-area-inset-left)));
+  padding-top:calc(18px + env(safe-area-inset-top,0px));display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+header h1{font-size:19px;font-weight:700}
+header .sp{margin-inline-start:auto;display:flex;gap:6px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--line);border-radius:40px;
+  padding:11px 18px;font:600 15px var(--f);background:var(--surface-2);color:var(--ink);cursor:pointer;white-space:nowrap}
+.btn.p{background:var(--navy-grad);color:#fff;border:0}
+.btn.g{background:linear-gradient(135deg,#27ae60,#2ecc71);color:#fff;border:0}
+.btn.d{background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff;border:0}
+.btn.s{padding:7px 13px;font-size:13.5px}
+.btn.w{width:100%}
+header .btn{background:rgba(255,255,255,.18);color:#fff;border:0}
+.btn:disabled{opacity:.55}
+.card{background:var(--surface);border-radius:var(--r);padding:16px;margin-bottom:14px;box-shadow:0 4px 16px rgba(20,30,50,.07)}
+label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.f{margin-bottom:13px}
+input,select,textarea{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:11px;
+  background:var(--surface);color:var(--ink);font:15px var(--f)}
+input:focus,select:focus{outline:none;border-color:var(--navy-2);box-shadow:0 0 0 3px rgba(74,100,145,.18)}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1;min-width:130px}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:3px 11px;border-radius:99px;font-size:12.5px;font-weight:600;
+  background:var(--surface-2);border:1px solid var(--line)}
+.chip.ok{background:var(--green-soft);color:var(--green);border-color:transparent}
+.chip.bad{background:var(--red-soft);color:var(--red);border-color:transparent}
+.chip.warn{background:var(--amber-soft);color:var(--amber);border-color:transparent}
+.key{font:700 17px ui-monospace,Menlo,Consolas,monospace;letter-spacing:.5px;direction:ltr;text-align:center;
+  background:var(--surface-2);border:1px dashed var(--line);border-radius:11px;padding:13px 8px;margin-bottom:10px;
+  word-break:break-all;user-select:all}
+.lic{border-inline-start:5px solid var(--navy-2)}
+.lic.blocked{border-color:var(--red);opacity:.85}
+.lic.exp{border-color:var(--amber)}
+.lic h3{font-size:16px;margin-bottom:2px}
+.meta{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0}
+.acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
+.dev{display:flex;gap:8px;align-items:center;padding:9px 0;border-top:1px dashed var(--line);font-size:13.5px}
+.dev code{direction:ltr;color:var(--muted);font-size:12px;word-break:break-all}
+.muted{color:var(--muted)}.sm{font-size:13px}
+.empty{text-align:center;color:var(--muted);padding:26px 10px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));
+  background:var(--navy);color:#fff;padding:12px 22px;border-radius:12px;font-weight:600;z-index:50;max-width:90vw;text-align:center}
+.toast.err{background:linear-gradient(135deg,#e74c3c,#c0392b)}
+.toast[hidden]{display:none}
+[hidden]{display:none!important}
+.tabs{display:flex;gap:7px;margin-bottom:14px}
+.tabs button{flex:1;padding:10px;border:0;border-radius:40px;background:var(--surface);color:var(--muted);font:600 14px var(--f);cursor:pointer}
+.tabs button.on{background:var(--navy-grad);color:#fff}
+.log{font-size:13px}
+.log div{display:flex;gap:9px;padding:7px 0;border-bottom:1px dashed var(--line);align-items:center}
+.log time{color:var(--muted);flex:none;font-size:12px;direction:ltr}
+.log code{direction:ltr;font-size:11.5px;color:var(--muted)}
+.gate{min-height:88vh;display:grid;place-items:center}
+.gate .card{width:100%;max-width:380px}
+.logo{width:62px;height:62px;border-radius:50%;background:var(--navy-grad);color:#fff;display:grid;place-items:center;
+  margin:0 auto 14px;font-size:27px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- إعداد الاتصال -->
+  <div class="gate" id="gConn" hidden><form class="card" id="fConn">
+    <div class="logo">🔑</div>
+    <h2 style="text-align:center;margin-bottom:6px">لوحة مفاتيح التفعيل</h2>
+    <p class="muted sm" style="text-align:center;margin-top:0">اربطها بمشروع التراخيص في Supabase. تُحفظ على هذا الجهاز فقط.</p>
+    <div class="f"><label>رابط المشروع</label><input id="cUrl" inputmode="url" placeholder="https://xxxx.supabase.co" required></div>
+    <div class="f"><label>المفتاح العام (anon / publishable)</label><input id="cKey" required></div>
+    <button class="btn p w">حفظ ومتابعة</button>
+  </form></div>
+
+  <!-- إنشاء حسابك -->
+  <div class="gate" id="gSetup" hidden><form class="card" id="fSetup">
+    <div class="logo">👤</div>
+    <h2 style="text-align:center;margin-bottom:6px">أنشئ حسابك</h2>
+    <p class="muted sm" style="text-align:center;margin-top:0">هذا الحساب لك وحدك، ولا يُنشأ إلا مرة واحدة.</p>
+    <div class="f"><label>اسم المستخدم</label><input id="sUser" required minlength="3" autocomplete="username"></div>
+    <div class="f"><label>كلمة المرور (8 أحرف فأكثر)</label><input id="sPass" type="password" required minlength="8" autocomplete="new-password"></div>
+    <button class="btn p w">إنشاء الحساب</button>
+  </form></div>
+
+  <!-- الدخول -->
+  <div class="gate" id="gLogin" hidden><form class="card" id="fLogin">
+    <div class="logo">🔑</div>
+    <h2 style="text-align:center;margin-bottom:14px">مفاتيح التفعيل</h2>
+    <div class="f"><label>اسم المستخدم</label><input id="lUser" required autocomplete="username" autocapitalize="off"></div>
+    <div class="f"><label>كلمة المرور</label><input id="lPass" type="password" required autocomplete="current-password"></div>
+    <button class="btn p w">دخول</button>
+    <button type="button" class="btn w sm" style="margin-top:9px;background:none;border:0;color:var(--muted)" id="lReset">تغيير بيانات الاتصال</button>
+  </form></div>
+
+  <!-- اللوحة -->
+  <div id="app" hidden>
+    <header>
+      <h1>🔑 مفاتيح التفعيل</h1>
+      <div class="sp">
+        <button class="btn s" id="bPw">كلمة المرور</button>
+        <button class="btn s" id="bOut">خروج</button>
+      </div>
+    </header>
+
+    <div class="tabs">
+      <button class="on" data-tab="list">المفاتيح</button>
+      <button data-tab="new">مفتاح جديد</button>
+      <button data-tab="log">النشاط</button>
+    </div>
+
+    <section data-p="list">
+      <div class="f"><input id="q" placeholder="ابحث باسم العميل أو المفتاح"></div>
+      <div id="list"></div>
+    </section>
+
+    <section data-p="new" hidden>
+      <form class="card" id="fNew">
+        <h3 style="margin-bottom:13px">إصدار مفتاح جديد</h3>
+        <div class="f"><label>اسم العميل / المدرسة</label><input id="nCustomer" placeholder="مدرسة فدى للتعليم الأساسي"></div>
+        <div class="row">
+          <div class="f"><label>النوع</label><select id="nPlan"><option value="lifetime">مدى الحياة</option><option value="yearly">اشتراك سنوي</option></select></div>
+          <div class="f"><label>عدد الأجهزة</label><input id="nDev" type="number" min="1" max="100" value="1"></div>
+        </div>
+        <div class="f" id="wMonths" hidden><label>المدة بالأشهر</label><input id="nMonths" type="number" min="1" max="120" value="12"></div>
+        <div class="f"><label>ملاحظة (اختياري)</label><input id="nNote" placeholder="رقم الهاتف، تاريخ البيع…"></div>
+        <button class="btn g w">إصدار المفتاح</button>
+      </form>
+      <div class="card" id="newOut" hidden>
+        <h3 style="margin-bottom:10px">✅ المفتاح جاهز</h3>
+        <div class="key" id="newKey"></div>
+        <div class="row">
+          <button class="btn p" id="bCopy">نسخ المفتاح</button>
+          <button class="btn g" id="bShare">إرسال واتساب</button>
+        </div>
+      </div>
+    </section>
+
+    <section data-p="log" hidden>
+      <div class="card"><h3 style="margin-bottom:9px">آخر محاولات التفعيل</h3><div class="log" id="log"></div></div>
+    </section>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+(() => {
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  const CONN = 'lic-conn', TOK = 'lic-token';
+  const ls = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } },
+               set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} } };
+  let conn = null, token = ls.get(TOK), sb = null, licenses = [];
+  try { conn = JSON.parse(ls.get(CONN)); } catch (e) {}
+
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  function toast(m, err) { const t = $('#toast'); t.textContent = m; t.classList.toggle('err', !!err); t.hidden = false;
+    clearTimeout(t._h); t._h = setTimeout(() => t.hidden = true, 2600); }
+  const show = id => ['gConn', 'gSetup', 'gLogin', 'app'].forEach(x => $('#' + x).hidden = x !== id);
+
+  function client() {
+    sb = window.supabase.createClient(conn.url, conn.key, {
+      auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+      global: { headers: token ? { 'x-owner': token } : {} }
+    });
+  }
+  async function rpc(fn, args) {
+    const { data, error } = await sb.rpc(fn, args || {});
+    if (error) throw error;
+    return data;
+  }
+  function errText(e) {
+    const m = String((e && (e.message || e.code)) || '');
+    if (/not_allowed/.test(m)) return 'انتهت الجلسة، سجّل الدخول مرة أخرى';
+    if (/already_setup/.test(m)) return 'الحساب موجود مسبقاً، سجّل الدخول';
+    if (/weak_password/.test(m)) return 'كلمة المرور قصيرة، استخدم 8 أحرف فأكثر';
+    if (/short_username/.test(m)) return 'اسم المستخدم قصير';
+    if (/Failed to fetch|NetworkError/i.test(m)) return 'لا يوجد اتصال بالإنترنت';
+    if (/Could not find the function|PGRST202/i.test(m)) return 'قاعدة البيانات ناقصة: شغّل ملف license-server.sql';
+    return 'حدث خطأ، حاول مرة أخرى';
+  }
+
+  const fmt = d => d ? new Date(d).toLocaleDateString('en-GB') : '';
+  const ago = d => { if (!d) return 'لم يُستخدم'; const n = Math.floor((Date.now() - new Date(d)) / 864e5);
+    return n <= 0 ? 'اليوم' : n === 1 ? 'أمس' : `قبل ${n} يوم`; };
+  const daysLeft = d => Math.ceil((new Date(d) - new Date()) / 864e5);
+
+  /* ---------- الشاشات ---------- */
+  $('#fConn').onsubmit = e => {
+    e.preventDefault();
+    const url = $('#cUrl').value.trim().replace(/\/+$/, ''), key = $('#cKey').value.trim();
+    if (!/^https:\/\/[^/]+\.supabase\.co$/.test(url)) return toast('الرابط غير صحيح', true);
+    if (key.length < 20) return toast('المفتاح العام غير صحيح', true);
+    conn = { url, key }; ls.set(CONN, JSON.stringify(conn)); client(); boot();
+  };
+  $('#lReset').onclick = () => { ls.set(CONN, null); ls.set(TOK, null); location.reload(); };
+
+  $('#fSetup').onsubmit = async e => {
+    e.preventDefault(); e.submitter.disabled = true;
+    try {
+      const r = await rpc('owner_setup', { p_username: $('#sUser').value, p_password: $('#sPass').value });
+      token = r.token; ls.set(TOK, token); client(); await enter();
+    } catch (err) { toast(errText(err), true); }
+    e.submitter.disabled = false;
+  };
+  $('#fLogin').onsubmit = async e => {
+    e.preventDefault(); e.submitter.disabled = true;
+    try {
+      const r = await rpc('owner_login', { p_username: $('#lUser').value, p_password: $('#lPass').value });
+      if (!r) toast('اسم المستخدم أو كلمة المرور غير صحيحة', true);
+      else { token = r.token; ls.set(TOK, token); $('#lPass').value = ''; client(); await enter(); }
+    } catch (err) { toast(errText(err), true); }
+    e.submitter.disabled = false;
+  };
+  $('#bOut').onclick = async () => { try { await rpc('owner_logout'); } catch (e) {} token = null; ls.set(TOK, null); client(); show('gLogin'); };
+  $('#bPw').onclick = async () => {
+    const p = prompt('كلمة المرور الجديدة (8 أحرف فأكثر):'); if (!p) return;
+    try { await rpc('owner_change_password', { p_password: p }); toast('تم تغيير كلمة المرور'); }
+    catch (e) { toast(errText(e), true); }
+  };
+
+  $$('.tabs button').forEach(b => b.onclick = () => {
+    $$('.tabs button').forEach(x => x.classList.toggle('on', x === b));
+    $$('[data-p]').forEach(s => s.hidden = s.dataset.p !== b.dataset.tab);
+    if (b.dataset.tab === 'log') loadLog();
+  });
+
+  /* ---------- إصدار مفتاح ---------- */
+  $('#nPlan').onchange = e => $('#wMonths').hidden = e.target.value !== 'yearly';
+  let lastKey = '', lastCustomer = '';
+  $('#fNew').onsubmit = async e => {
+    e.preventDefault(); e.submitter.disabled = true;
+    try {
+      const plan = $('#nPlan').value;
+      const r = await rpc('owner_new_license', {
+        p_customer: $('#nCustomer').value, p_plan: plan,
+        p_max_devices: +$('#nDev').value || 1,
+        p_months: plan === 'yearly' ? (+$('#nMonths').value || 12) : null,
+        p_note: $('#nNote').value });
+      lastKey = r.key; lastCustomer = $('#nCustomer').value.trim();
+      $('#newKey').textContent = r.key; $('#newOut').hidden = false;
+      $('#newOut').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      $('#nCustomer').value = ''; $('#nNote').value = '';
+      await loadList(); toast('تم إصدار المفتاح');
+    } catch (err) { toast(errText(err), true); }
+    e.submitter.disabled = false;
+  };
+  async function copy(text) {
+    try { await navigator.clipboard.writeText(text); toast('تم النسخ'); }
+    catch (e) { prompt('انسخ المفتاح:', text); }
+  }
+  $('#bCopy').onclick = () => copy(lastKey);
+  $('#bShare').onclick = () => {
+    const msg = `مفتاح تفعيل برنامج المناوبات${lastCustomer ? ' – ' + lastCustomer : ''}:\n\n${lastKey}\n\nافتح البرنامج، والصق المفتاح في شاشة التفعيل.`;
+    window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank', 'noopener');
+  };
+
+  /* ---------- قائمة المفاتيح ---------- */
+  async function loadList() { licenses = await rpc('owner_list_licenses') || []; renderList(); }
+  $('#q').oninput = renderList;
+
+  function renderList() {
+    const q = $('#q').value.trim().toLowerCase();
+    const items = licenses.filter(l => !q || (l.key + ' ' + (l.customer || '') + ' ' + (l.note || '')).toLowerCase().includes(q));
+    if (!items.length) return $('#list').innerHTML = '<div class="card empty">لا توجد مفاتيح بعد. أصدر أول مفتاح من التبويب الثاني.</div>';
+    $('#list').innerHTML = items.map(l => {
+      const expired = l.plan === 'yearly' && l.expires_on && daysLeft(l.expires_on) < 0;
+      const soon = l.plan === 'yearly' && l.expires_on && daysLeft(l.expires_on) >= 0 && daysLeft(l.expires_on) <= 30;
+      const cls = l.status === 'blocked' ? 'blocked' : (expired || soon) ? 'exp' : '';
+      const state = l.status === 'blocked' ? '<span class="chip bad">موقوف</span>'
+        : expired ? '<span class="chip bad">منتهي</span>'
+        : soon ? `<span class="chip warn">يبقى ${daysLeft(l.expires_on)} يوم</span>`
+        : '<span class="chip ok">فعّال</span>';
+      const plan = l.plan === 'lifetime' ? '<span class="chip">مدى الحياة</span>'
+        : `<span class="chip">سنوي حتى ${fmt(l.expires_on)}</span>`;
+      const devs = (l.devices || []).map(d => `<div class="dev">
+          <span>💻</span>
+          <span style="flex:1">${esc(d.name) || 'جهاز'}<br><code>${esc(d.device_id)}</code><br>
+            <span class="muted sm">فُعّل ${fmt(d.activated_at)} · آخر ظهور ${ago(d.last_seen)}</span></span>
+          <button class="btn s d" data-rel="${esc(l.key)}|${esc(d.device_id)}">تحرير</button></div>`).join('');
+      return `<div class="card lic ${cls}">
+        <h3>${esc(l.customer) || 'بدون اسم'}</h3>
+        <div class="key">${esc(l.key)}</div>
+        <div class="meta">${state}${plan}
+          <span class="chip">${l.devices_used} / ${l.max_devices} جهاز</span>
+          ${l.note ? `<span class="chip">${esc(l.note)}</span>` : ''}</div>
+        ${devs || '<div class="muted sm">لم يُفعّل على أي جهاز بعد</div>'}
+        <div class="acts">
+          <button class="btn s p" data-copy="${esc(l.key)}">نسخ</button>
+          <button class="btn s" data-block="${esc(l.key)}|${l.status}">${l.status === 'blocked' ? 'تفعيل' : 'إيقاف'}</button>
+          <button class="btn s" data-ext="${esc(l.key)}">تمديد سنة</button>
+          ${l.plan === 'yearly' ? `<button class="btn s" data-life="${esc(l.key)}">مدى الحياة</button>` : ''}
+          <button class="btn s" data-dev="${esc(l.key)}|${l.max_devices}">عدد الأجهزة</button>
+          <button class="btn s d" data-del="${esc(l.key)}">حذف</button>
+        </div></div>`;
+    }).join('');
+  }
+
+  document.addEventListener('click', async e => {
+    const b = e.target.closest('[data-copy],[data-block],[data-ext],[data-life],[data-dev],[data-del],[data-rel]');
+    if (!b) return;
+    const d = b.dataset;
+    try {
+      if (d.copy) return copy(d.copy);
+      if (d.block) { const [k, s] = d.block.split('|');
+        await rpc('owner_set_status', { p_key: k, p_status: s === 'blocked' ? 'active' : 'blocked' });
+        toast(s === 'blocked' ? 'تم تفعيل المفتاح' : 'تم إيقاف المفتاح'); }
+      else if (d.ext) { const r = await rpc('owner_extend', { p_key: d.ext, p_months: 12 }); toast('مُدّد حتى ' + fmt(r.expires_on)); }
+      else if (d.life) { if (!confirm('تحويله إلى مدى الحياة؟')) return; await rpc('owner_make_lifetime', { p_key: d.life }); toast('صار مدى الحياة'); }
+      else if (d.dev) { const [k, cur] = d.dev.split('|');
+        const n = prompt('كم جهاز مسموح لهذا المفتاح؟', cur); if (!n) return;
+        await rpc('owner_set_devices', { p_key: k, p_max: +n }); toast('تم التحديث'); }
+      else if (d.rel) { const [k, id] = d.rel.split('|');
+        if (!confirm('تحرير هذا الجهاز؟ سيتمكن العميل من التفعيل على كمبيوتر آخر.')) return;
+        await rpc('owner_release_device', { p_key: k, p_device: id }); toast('تم تحرير الجهاز'); }
+      else if (d.del) { if (!confirm('حذف المفتاح نهائياً؟ سيتوقف البرنامج عند العميل.')) return;
+        await rpc('owner_delete_license', { p_key: d.del }); toast('تم الحذف'); }
+      await loadList();
+    } catch (err) { toast(errText(err), true); }
+  });
+
+  async function loadLog() {
+    try {
+      const rows = await rpc('owner_recent_activity', { p_limit: 80 }) || [];
+      const label = { ok: '<span class="chip ok">نجح</span>', not_found: '<span class="chip bad">مفتاح خاطئ</span>',
+        blocked: '<span class="chip bad">موقوف</span>', expired: '<span class="chip warn">منتهي</span>',
+        device_limit: '<span class="chip warn">تجاوز الأجهزة</span>', bad_device: '<span class="chip bad">جهاز غير صالح</span>' };
+      $('#log').innerHTML = rows.length ? rows.map(x => `<div>
+        <time>${new Date(x.at).toLocaleString('en-GB', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}</time>
+        <span style="flex:1"><code>${esc(x.key_tried)}</code><br><code>${esc(x.device_id)}</code></span>
+        ${label[x.result] || '<span class="chip">' + esc(x.result) + '</span>'}</div>`).join('')
+        : '<div class="empty">لا يوجد نشاط بعد</div>';
+    } catch (e) { toast(errText(e), true); }
+  }
+
+  async function enter() { show('app'); await loadList(); }
+
+  async function boot() {
+    if (!conn) return show('gConn');
+    client();
+    try {
+      if (token) { const me = await rpc('owner_list_licenses').then(() => true).catch(() => false);
+        if (me) return enter(); token = null; ls.set(TOK, null); client(); }
+      show(await rpc('owner_needs_setup') ? 'gSetup' : 'gLogin');
+    } catch (e) { toast(errText(e), true); show('gLogin'); }
+  }
+  boot();
+})();
+</script>
+</body>
+</html>
